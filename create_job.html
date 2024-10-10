@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Job Data</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Enter Job Data</h1>
+
+<form id="createJobForm">
+    <label for="title">Job Title:</label>
+    <input type="text" id="title" name="title"><br><br>
+
+    <label for="type">Job Type:</label>
+    <select id="type" name="type">
+        <option value="">Select Type</option>
+        <option value="Full-Time">Full-Time</option>
+        <option value="Part-Time">Part-Time</option>
+        <option value="Contract">Contract</option>
+    </select><br><br>
+
+    <label for="department">Department:</label>
+    <select id="department" name="department">
+        <option value="">Select Department</option>
+        <option value="HR">HR</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Sales">Sales</option>
+    </select><br><br>
+
+    <label for="country">Country:</label>
+    <select id="country" name="country">
+        <option value="">Select Country</option>
+        <option value="USA">USA</option>
+        <option value="Canada">Canada</option>
+        <option value="UK">UK</option>
+    </select><br><br>
+
+    <label for="description">Job Description:</label>
+    <textarea id="description" name="description"></textarea><br><br>
+
+    <label for="openingDate">Opening Date:</label>
+    <input type="date" id="openingDate" name="openingDate" value=""><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+<p id="error-message" style="color:red;"></p>
+
+<script>
+    document.getElementById("openingDate").value = new Date().toISOString().split('T')[0]; // Set current date
+
+    document.getElementById("createJobForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+          // Clear previous error message
+          document.getElementById("error-message").innerText = "";
+
+const title = document.getElementById("title").value;
+const type = document.getElementById("type").value;
+const department = document.getElementById("department").value;
+const country = document.getElementById("country").value;
+const description = document.getElementById("description").value;
+const openingDate = document.getElementById("openingDate").value;
+
+if (!title || !type || !department || !country || !description || !openingDate) {
+    document.getElementById("error-message").innerText = "All fields are required.";
+    return;
+}
+
+const currentDate = new Date().toISOString().split('T')[0];
+if (openingDate > currentDate) {
+    document.getElementById("error-message").innerText = "Opening date cannot be in the future.";
+    return;
+}
+
+alert("Form submitted successfully!");
+});
+</script>
+
+</body>
+</html>

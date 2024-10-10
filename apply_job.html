@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Jobs</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your external CSS file -->
+    <script>
+        function validateForm() {
+            // Get form values
+            const firstName = document.getElementById('first_name').value;
+            const lastName = document.getElementById('last_name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const zip = document.getElementById('zip').value;
+            const country = document.getElementById('country').value;
+            const educationLevel = document.getElementById('edu_level').value;
+            const educationType = document.getElementById('edu_type').value;
+            const resume = document.getElementById('resume').value;
+            const employed = document.getElementById('employed').checked;
+            const currentEmployer = document.getElementById('current_employer').value;
+            const yearsOfExp = document.getElementById('years_of_exp').value;
+
+            // Validate required fields are not blank
+            if (firstName === "" || lastName === "" || email === "" || phone === "" || address === "" ||
+                city === "" || state === "" || zip === "" || country === "" || educationLevel === "" ||
+                educationType === "" || resume === "") {
+                alert("Please fill out all required fields.");
+                return false;
+            }
+
+            // Validate numeric values (zip and years of experience)
+            if (isNaN(zip) || zip <= 0) {
+                alert("Please enter a valid zip code.");
+                return false;
+            }
+            if (employed && (isNaN(yearsOfExp) || yearsOfExp < 0)) {
+                alert("Please enter valid years of experience.");
+                return false;
+            }
+
+            // Validate email
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+            // Validate phone number
+            const phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function toggleEmploymentDetails() {
+            const employed = document.getElementById('employed').checked;
+            const employmentDetails = document.getElementById('employment_details');
+            employmentDetails.style.display = employed ? 'block' : 'none';
+        }
+    </script>
+</head>
+<body>
+    <h1 class="page-title">Apply for Jobs</h1>
+    <form action="/submit_application" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="first_name">First Name*:</label>
+            <input type="text" id="first_name" name="first_name" class="input-text" required>
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name*:</label>
+            <input type="text" id="last_name" name="last_name" class="input-text" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email*:</label>
+            <input type="email" id="email" name="email" class="input-text" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone*:</label>
+            <input type="tel" id="phone" name="phone" class="input-text" required>
+        </div>
+        <div class="form-group">
+            <label for="address">Address*:</label>
+            <input type="text" id="address" name="address" class="input-text" required>
+        </div>
+        <div class="form-group">
+            <label for="city">City*:</label>
+            <input type="text" id="city" name="city" class="input-text" required>
+        </div>
+        <div class="form-group">
+            <label for="state">State*:</label>
+            <input type="text" id="state" name="state" class="input-text" required>
+        </div>
+        <div class="form-group">
+            <label for="zip">Zip*:</label>
+            <input type="text" id="zip" name="zip" class="input-text" required>
+        </div>
+        <div class="form-group">
+            <label for="country">Country*:</label>
+            <select id="country" name="country" class="input-select" required>
+                <option value="">Select your country</option>
+                <!-- Add country options -->
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+                <option value="UK">United Kingdom</option>
+                <!-- Other countries -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="edu_level">Education Level*:</label>
+            <select id="edu_level" name="edu_level" class="input-select" required>
+                <option value="">Select education level</option>
+                <option value="high_school">High School</option>
+                <option value="bachelors">Bachelors</option>
+                <option value="masters">Masters</option>
+                <option value="phd">PhD</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="edu_type">Education Type*:</label>
+            <select id="edu_type" name="edu_type" class="input-select" required>
+                <option value="">Select education type</option>
+                <option value="full_time">Full-Time</option>
+                <option value="part_time">Part-Time</option>
+                <option value="online">Online</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="resume">Resume*:</label>
+            <input type="file" id="resume" name="resume" class="input-file" required>
+        </div>
+        <div class="form-group">
+            <label for="cover_letter">Cover Letter (optional):</label>
+            <textarea id="cover_letter" name="cover_letter" class="input-textarea"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="employed">Are you employed?:</label>
+            <input type="checkbox" id="employed" name="employed" class="input-checkbox" onclick="toggleEmploymentDetails()">
+        </div>
+        <div id="employment_details" style="display:none;">
+            <div class="form-group">
+                <label for="current_employer">Current Employer:</label>
+                <input type="text" id="current_employer" name="current_employer" class="input-text">
+            </div>
+            <div class="form-group">
+                <label for="years_of_exp">Years of Experience:</label>
+                <input type="number" id="years_of_exp" name="years_of_exp" class="input-text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="jobs">Jobs you want to apply for*:</label>
+            <select id="jobs" name="jobs[]" class="input-select" multiple required>
+                <!-- List of open jobs -->
+                <option value="job1">Job 1</option>
+                <option value="job2">Job 2</option>
+                <option value="job3">Job 3</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="submit-button">Submit</button>
+        </div>
+    </form>
+    <style>
+        /* Basic styles for the form */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-text, .input-select, .input-file, .input-textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.input-checkbox {
+    margin-left: 5px;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+
+
+    </style>
+</body>
+</html>
